@@ -9,17 +9,14 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { BookingService } from './booking.service';
+import { BookingService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingStatusDto } from './dto/update-booking-status.dto';
 import { BookingStatus } from '@prisma/client';
 
 @Controller('bookings')
 export class BookingController {
-
-  constructor(
-    private readonly bookingService: BookingService,
-  ) {}
+  constructor(private readonly bookingService: BookingService) {}
 
   @Post()
   create(@Body() dto: CreateBookingDto) {
@@ -47,18 +44,12 @@ export class BookingController {
   }
 
   @Patch(':id/status')
-  updateStatus(
-    @Param('id') id: string,
-    @Body() dto: UpdateBookingStatusDto,
-  ) {
+  updateStatus(@Param('id') id: string, @Body() dto: UpdateBookingStatusDto) {
     return this.bookingService.updateStatus(id, dto);
   }
 
   @Delete(':id')
-  cancel(
-    @Param('id') id: string,
-  ) {
+  cancel(@Param('id') id: string) {
     return this.bookingService.cancel(id);
   }
-
 }

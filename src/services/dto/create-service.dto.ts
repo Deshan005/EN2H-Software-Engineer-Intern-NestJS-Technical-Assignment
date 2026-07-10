@@ -7,24 +7,22 @@ import {
 } from 'class-validator';
 
 export class CreateServiceDto {
+  @IsString()
+  @IsNotEmpty()
+  title!: string;
 
   @IsString()
   @IsNotEmpty()
-  title: string;
-
-  @IsString()
-  @IsNotEmpty()
-  description: string;
+  description!: string;
 
   @IsNumber()
   @IsPositive()
-  duration: number;
+  duration!: number;
 
   @IsNumber()
   @IsPositive()
-  price: number;
+  price!: number;
 
   @IsBoolean()
-  isActive: boolean;
-
+  isActive!: boolean;
 }

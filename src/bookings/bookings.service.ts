@@ -34,9 +34,7 @@ export class BookingService {
     today.setHours(0, 0, 0, 0);
 
     if (bookingDate < today) {
-      throw new BadRequestException(
-        'Booking date cannot be in the past',
-      );
+      throw new BadRequestException('Booking date cannot be in the past');
     }
 
     // Duplicate booking
@@ -52,9 +50,7 @@ export class BookingService {
     });
 
     if (duplicate) {
-      throw new BadRequestException(
-        'Time slot already booked',
-      );
+      throw new BadRequestException('Time slot already booked');
     }
 
     return this.prisma.booking.create({
@@ -65,12 +61,7 @@ export class BookingService {
     });
   }
 
-  async findAll(
-    page = 1,
-    limit = 10,
-    status?: BookingStatus,
-    search?: string,
-  ) {
+  async findAll(page = 1, limit = 10, status?: BookingStatus, search?: string) {
     return this.prisma.booking.findMany({
       skip: (page - 1) * limit,
       take: Number(limit),
@@ -116,27 +107,20 @@ export class BookingService {
     });
 
     if (!booking) {
-      throw new NotFoundException(
-        'Booking not found',
-      );
+      throw new NotFoundException('Booking not found');
     }
 
     return booking;
   }
 
-  async updateStatus(
-    id: string,
-    dto: UpdateBookingStatusDto,
-  ) {
+  async updateStatus(id: string, dto: UpdateBookingStatusDto) {
     const booking = await this.findOne(id);
 
     if (
       booking.status === BookingStatus.CANCELLED &&
       dto.status === BookingStatus.COMPLETED
     ) {
-      throw new BadRequestException(
-        'Cancelled booking cannot be completed',
-      );
+      throw new BadRequestException('Cancelled booking cannot be completed');
     }
 
     return this.prisma.booking.update({

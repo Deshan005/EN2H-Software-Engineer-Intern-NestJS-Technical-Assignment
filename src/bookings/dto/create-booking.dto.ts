@@ -3,31 +3,29 @@ import {
   IsEmail,
   IsUUID,
   IsDateString,
-  IsNotEmpty,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateBookingDto {
-
   @IsString()
-  @IsNotEmpty()
-  customerName: string;
+  customerName!: string;
 
   @IsEmail()
-  customerEmail: string;
+  customerEmail!: string;
 
   @IsString()
-  customerPhone: string;
+  customerPhone!: string;
 
   @IsUUID()
-  serviceId: string;
+  serviceId!: string;
 
   @IsDateString()
-  bookingDate: string;
+  bookingDate!: string;
 
   @IsString()
-  bookingTime: string;
+  bookingTime!: string;
 
+  @IsOptional()
   @IsString()
-  notes: string;
-
+  notes?: string;
 }

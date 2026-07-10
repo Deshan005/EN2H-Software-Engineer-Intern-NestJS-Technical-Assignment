@@ -3,7 +3,6 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-
   constructor(private prisma: PrismaService) {}
 
   async create(email: string, password: string) {
@@ -22,5 +21,4 @@ export class UsersService {
       },
     });
   }
-
 }

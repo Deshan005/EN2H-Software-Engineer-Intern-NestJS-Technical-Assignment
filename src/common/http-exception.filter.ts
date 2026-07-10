@@ -8,18 +8,16 @@ import {
 
 import { Request, Response } from 'express';
 
+interface ExceptionResponse {
+  message?: string | string[];
+}
+
 @Catch()
-export class HttpExceptionFilter
-  implements ExceptionFilter
-{
-  catch(
-    exception: unknown,
-    host: ArgumentsHost,
-  ) {
+export class HttpExceptionFilter implements ExceptionFilter {
+  catch(exception: unknown, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
 
     const response = ctx.getResponse<Response>();
-
     const request = ctx.getRequest<Request>();
 
     const status =
@@ -40,11 +38,13 @@ export class HttpExceptionFilter
       typeof exceptionResponse === 'object' &&
       exceptionResponse !== null
     ) {
-      const res = exceptionResponse as any;
+      const res = exceptionResponse as ExceptionResponse;
 
-      message = Array.isArray(res.message)
-        ? res.message.join(', ')
-        : res.message;
+      if (Array.isArray(res.message)) {
+        message = res.message.join(', ');
+      } else if (typeof res.message === 'string') {
+        message = res.message;
+      }
     }
 
     response.status(status).json({
