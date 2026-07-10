@@ -1,18 +1,24 @@
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module'; // Ensure the path correctly points to your app.module.ts
-async function bootstrap() {
+import { ValidationPipe } from '@nestjs/common';
+import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/http-exception.filter';
 
+async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      forbidNonWhitelisted: true,
       transform: true,
     }),
   );
 
-  await app.listen(3000);
+  app.useGlobalFilters(
+    new HttpExceptionFilter(),
+  );
+
+  await app.listen(process.env.PORT ?? 3000);
 }
 
 bootstrap();
