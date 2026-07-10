@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ServiceModule } from './service/service.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -15,6 +16,8 @@ import { ServiceModule } from './service/service.module';
     AuthModule,
 
     ServiceModule,
+
+    BookingModule,
 
   ],
 })
