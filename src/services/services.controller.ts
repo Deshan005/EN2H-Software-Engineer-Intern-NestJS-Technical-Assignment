@@ -9,8 +9,8 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-
 import type { Request as ExpressRequest } from 'express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { ServiceService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
@@ -24,6 +24,8 @@ type AuthRequest = ExpressRequest & {
   };
 };
 
+@ApiTags('Service')
+@ApiBearerAuth()
 @Controller('services')
 export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
